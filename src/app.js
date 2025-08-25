@@ -55,6 +55,20 @@ app.get("/user", async (req, res) => {
     res.status(400).send("Something went wrong!!!");
   }
 });
+
+// finding the one user in the data database
+
+app.get("/one",async(req,res)=>{
+  const userEmail = req.body.email;
+  try{
+    const users = await User.findOne({email : userEmail})
+    res.send(users)
+  }catch(err){
+    res.status(400).send("Something went wrong!!!")
+  }
+});
+
+
 connectDb()
   .then(() => {
     console.log("Database connection established.........");
