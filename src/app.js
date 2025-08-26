@@ -58,16 +58,26 @@ app.get("/user", async (req, res) => {
 
 // finding the one user in the data database
 
-app.get("/one",async(req,res)=>{
+app.get("/one", async (req, res) => {
   const userEmail = req.body.email;
-  try{
-    const users = await User.findOne({email : userEmail})
-    res.send(users)
-  }catch(err){
-    res.status(400).send("Something went wrong!!!")
+  try {
+    const users = await User.findOne({ email: userEmail });
+    res.send(users);
+  } catch (err) {
+    res.status(400).send("Something went wrong!!!");
   }
 });
 
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(userId);
+    res.send("User has been deleted!!!");
+  } catch (err) {
+    res.status(400).send("Something went wrong!!!");
+  }
+});
 
 connectDb()
   .then(() => {
