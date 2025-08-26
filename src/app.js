@@ -68,7 +68,7 @@ app.get("/one", async (req, res) => {
   }
 });
 
-// delete a user 
+// delete a user------------------------------------------------
 app.delete("/user", async (req, res) => {
   const userId = req.body.userId;
 
