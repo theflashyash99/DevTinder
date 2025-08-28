@@ -106,6 +106,6 @@ connectDb()
   });
 
 
-  // now time for Validation.
+  // now time for Validation for the backened
 
 //port and callback
