@@ -105,4 +105,7 @@ connectDb()
     console.error("Database cannot be connected!!!!");
   });
 
+
+  // now time for Validation.
+
 //port and callback
