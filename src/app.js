@@ -17,7 +17,7 @@ app.post("/signup", async (req, res) => {
   //   age: 21,
   // });
 
-  //------------------------------The Dyanamic data transfer------------------------------------------------------------ 
+  //------------------------------The Dyanamic data transfer--------------------------------------------------------------- 
   //creating a new instance of User model.
   const user = new User(req.body);
   try {
