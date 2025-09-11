@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//instance of new schema made so use new.
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
