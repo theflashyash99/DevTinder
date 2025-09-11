@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true, // it will make sure every email is unique.
     lowercase: true, //  it will make string into lower case.
     trim: true, // it will remove white space.
   },
