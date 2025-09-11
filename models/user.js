@@ -14,8 +14,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
-    trim: true,
+    lowercase: true, // 
+    trim: true, // it will remove white space.
   },
   password: {
     type: String,
