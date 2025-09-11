@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true, // 
+    lowercase: true, //  it will make string into lower case.
     trim: true, // it will remove white space.
   },
   password: {
