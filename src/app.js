@@ -18,7 +18,7 @@ app.post("/signup", async (req, res) => {
   // });
 
   //------------------------------The Dyanamic data transfer--------------------------------------------------------------- 
-  //creating a new instance of User model...
+  //creating a new instance of User model.
   const user = new User(req.body);
   try {
     await user.save();
