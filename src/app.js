@@ -90,7 +90,7 @@ app.delete("/user", async (req, res) => {
      console.log(updatedUser);
      res.send("User's data has been updated!!!")
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).send("UPDATE FAILED : " + err.message);
   }
  });
 
