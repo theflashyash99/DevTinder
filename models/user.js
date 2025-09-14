@@ -45,7 +45,11 @@ const userSchema = new mongoose.Schema({
   skills: {
     type: [String], // it will require a sting of arrays thats why we've given it the array.
   },
-});
+  
+},
+{
+    timestamps:true,
+  });
 
 const User = mongoose.model("User", userSchema);
 
