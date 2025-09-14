@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    minLength: 4,
+    minLength: 4, // for string minlength
   },
   lastName: {
     type: String,
@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
   },
   photoURL: {
     type: String,
+    default : "https://www.pnrao.com/wp-content/uploads/2023/06/dummy-user-male.jpg",
   },
   about: {
     type: String,
