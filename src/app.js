@@ -84,7 +84,9 @@ app.delete("/user", async (req, res) => {
 
 app.patch("/user/:userId", async (req, res) => {
   const userId = req.params?.userId;
+  // whole data given in the body of postman will be extracted here.
   const data = req.body;
+  
 
   // making AllowedUser API Validation
 
@@ -98,8 +100,8 @@ app.patch("/user/:userId", async (req, res) => {
 
 
     // skills valifation for it has only 5 skills
-    if(!data.skills.length <5){
-      throw new Error ("The skills should be less than 5")
+    if(data.skills.length>10){
+      throw new Error ("The skills should be not be more than 10")
     }
     
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
