@@ -103,6 +103,12 @@ app.patch("/user/:userId", async (req, res) => {
     if (!isAllowed) {
       throw new Error("Updatin not allowed");
     }
+
+    const skillValiadtion = Object.keys(data).every((k) =>{ k.contains(skills)});
+
+    if(skillValiadtion.length >5){
+      throw new Error("The skill should be less than 5");
+    }
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
       runValidators: true,
