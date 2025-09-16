@@ -99,7 +99,7 @@ app.patch("/user/:userId", async (req, res) => {
 
     // skills valifation for it has only 5 skills
     if(!data.skills.length <5){
-      throw new Error ("The skills should be less than5")
+      throw new Error ("The skills should be less than 5")
     }
     
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
