@@ -85,14 +85,6 @@ app.delete("/user", async (req, res) => {
 app.patch("/user/:userId", async (req, res) => {
   const userId = req.params?.userId;
   const data = req.body;
-  //  {
-  //     "userId": "68c6687185251fe940257412",
-  //    "firstName": "Miles earth 2 koila",
-  //     "email": "MilesE21234@gmail.com            ",
-  //     "age": 22,
-  //     "gender" : "male",
-  //     "skills" : ["Figth" ,"swimming", "Ninja Run" , "Charka_control" , "Suriken throw"]
-  //   }
 
   // making AllowedUser API Validation
 
@@ -101,14 +93,15 @@ app.patch("/user/:userId", async (req, res) => {
 
     const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
     if (!isAllowed) {
-      throw new Error("Updatin not allowed");
+      throw new Error("Updating  not allowed");
     }
 
-    const skillValiadtion = Object.keys(data).every((k) =>{ k.contains(skills)});
 
-    if(skillValiadtion.length >5){
-      throw new Error("The skill should be less than 5");
+    // skills valifation for it has only 5 skills
+    if(!data.skills.length <5){
+      throw new Error ("The skills should be less than 5")
     }
+    
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
       runValidators: true,
