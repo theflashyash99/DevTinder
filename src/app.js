@@ -91,7 +91,7 @@ app.patch("/user/:userId", async (req, res) => {
   // making AllowedUser API Validation
 
   try {
-    const Allowed_User = ["firstName", "age", "gender", "skills" , "about"];
+    const Allowed_User = ["firstName", "age", "gender", "skills" , "about", "photoURL"];
 
     const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
     if (!isAllowed) {

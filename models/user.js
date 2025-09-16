@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      validate(value){
+        if(!validator.isStrongPassword(value)){
+          throw new Error ("The given password is not strong " + value)
+        }
+      }
     },
     age: {
       type: Number,
@@ -45,6 +50,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://www.pnrao.com/wp-content/uploads/2023/06/dummy-user-male.jpg",
+        validate(value){
+          if(!validator.isURL(value)){
+            throw new Error ("The given URL is not Valid")
+
+          }
+        }
     },
     about: {
       type: String,
