@@ -17,7 +17,7 @@ app.post("/signup", async (req, res) => {
   //   age: 21,
   // });
 
-  //------------------------------The Dyanamic data transfer--------------------------------------------------------------- 
+  //------------------------------The Dyanamic data transfer---------------------------------------------------------------
   //creating a new instance of User model.... ....
   const user = new User(req.body);
   try {
@@ -80,19 +80,39 @@ app.delete("/user", async (req, res) => {
   }
 });
 
- // update a user---------------------------------
+// update a user-- and validation on the Give API for the selective field can be updated.
 
- app.patch("/user",async (req,res) => {
-  const userId = req.body.userId;
+app.patch("/user/:userId", async (req, res) => {
+  const userId = req.params?.userId;
   const data = req.body;
+  //  {
+  //     "userId": "68c6687185251fe940257412",
+  //    "firstName": "Miles earth 2 koila",
+  //     "email": "MilesE21234@gmail.com            ",
+  //     "age": 22,
+  //     "gender" : "male",
+  //     "skills" : ["Figth" ,"swimming", "Ninja Run" , "Charka_control" , "Suriken throw"]
+  //   }
+
+  // making AllowedUser API Validation
+
   try {
-     const updatedUser = await User.findByIdAndUpdate({_id : userId}, data,{returnDocument : "after" , runValidators : true,});
-     console.log(updatedUser);
-     res.send("User's data has been updated!!!")
+    const Allowed_User = ["firstName", "age", "gender", "skills" , "about"];
+
+    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
+    if (!isAllowed) {
+      throw new Error("Updatin not allowed");
+    }
+    const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    console.log(updatedUser);
+    res.send("User's data has been updated!!!");
   } catch (err) {
     res.status(400).send("UPDATE FAILED : " + err.message);
   }
- });
+});
 
 connectDb()
   .then(() => {
@@ -105,8 +125,6 @@ connectDb()
     console.error("Database cannot be connected!!!!");
   });
 
-
-  // now time for Validation for the backened-----------------------------------
+// now time for Validation for the backened-----------------------------------
 
 //port and callback---
-
