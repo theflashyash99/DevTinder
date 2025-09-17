@@ -2,11 +2,12 @@ const express = require("express");
 const connectDb = require("./config/database");
 const app = express();
 const User = require("../models/user");
+const {validationSignUpData} = require("./utils/validation");
+ const bcrypt =require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
   //creating a new instance of User model.
   //----------------------Manual & Hard-coded data passing
   // const user = new User({
@@ -18,13 +19,26 @@ app.post("/signup", async (req, res) => {
   // });
 
   //------------------------------The Dyanamic data transfer---------------------------------------------------------------
+
   //creating a new instance of User model.... ....
-  const user = new User(req.body);
   try {
+    //validation check function.
+    const {firstName,lastName,age,email,password,about,photoURL} = req.body
+    validationSignUpData(req);
+
+    // password encryption using bcrypt
+
+    const passwordHash = await bcrypt.hash(password,10)
+    console.log(passwordHash);
+
+    const user = new User({
+      firstName,lastName,age,email, password : passwordHash , about , photoURL
+    });
+
     await user.save();
     res.send("User added successfuly");
   } catch (err) {
-    res.send("Problem with adding User:" + err.message);
+    res.send("Error: " + err.message);
   }
 });
 
@@ -86,24 +100,29 @@ app.patch("/user/:userId", async (req, res) => {
   const userId = req.params?.userId;
   // whole data given in the body of postman will be extracted here.
   const data = req.body;
-  
 
   // making AllowedUser API Validation
 
   try {
-    const Allowed_User = ["firstName", "age", "gender", "skills" , "about", "photoURL"];
+    const Allowed_User = [
+      "firstName",
+      "age",
+      "gender",
+      "skills",
+      "about",
+      "photoURL",
+    ];
 
     const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
     if (!isAllowed) {
       throw new Error("Updating  not allowed");
     }
 
-
     // skills valifation for it has only 5 skills
-    if(data.skills.length>10){
-      throw new Error ("The skills should be not be more than 10")
+    if (data.skills.length > 10) {
+      throw new Error("The skills should be not be more than 10");
     }
-    
+
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
       returnDocument: "after",
       runValidators: true,
