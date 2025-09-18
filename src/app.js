@@ -132,12 +132,14 @@ app.patch("/user/:userId", async (req, res) => {
       "firstName",
       "age",
       "gender",
-      "skills",
+      "skills", 
       "about",
       "photoURL",
     ];
 
-    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
+    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k)); 
+    // every check the statement and return the true or false. it work on arrays
+  
     if (!isAllowed) {
       throw new Error("Updating  not allowed");
     }
