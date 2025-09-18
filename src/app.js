@@ -42,6 +42,15 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login",async(req,res)=>{
+  try {
+    
+  } catch (err) {
+    console.error("Something went wrong!!!");
+  }
+
+})
+
 //Finding the user based on email condition.
 app.get("/feed", async (req, res) => {
   const userEmail = req.body.email;
