@@ -17,9 +17,7 @@ app.post("/signup", async (req, res) => {
   //   password: "123456789",
   //   age: 21,
   // });
-
   //------------------------------The Dyanamic data transfer---------------------------------------------------------------
-
   //creating a new instance of User model.... ....
   try {
     //validation check function.
@@ -41,12 +39,24 @@ app.post("/signup", async (req, res) => {
     res.send("Error: " + err.message);
   }
 });
-
+// login API-----------------------------
 app.post("/login",async(req,res)=>{
   try {
-    
+    const {email,password}= req.body;
+    const user = await User.findOne({email : email});
+    if(!user){
+      throw new Error("Invalid credentials");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password,user.password);
+    if(isPasswordValid){
+      res.send("Login successsful!!!")
+    }else{
+      throw new Error ("Invalid credentials")
+    }
+
   } catch (err) {
-    console.error("Something went wrong!!!");
+    res.status(400).send("Error: " + err.message);
   }
 
 })
