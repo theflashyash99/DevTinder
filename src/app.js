@@ -57,17 +57,32 @@ app.post("/login", async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
+      //JWT logics.
+
+
+
+      //Add the token to cookies and send the response back to the user.
+
+
+
+
+
+
+
+
+
+
       res.send("Login successsful!!!");
     } else {
       throw new Error("Invalid credentials");
     }
   } catch (err) {
     res.status(400).send("Error: " + err.message);
-  }
+  } 
 });
 
 //Finding the user based on email condition.
-app.get("/feed", async (req, res) => {
+app.get("/feed", async (req, res) => {z
   const userEmail = req.body.email;
   try {
     const users = await User.find({ email: userEmail });
