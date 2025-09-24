@@ -4,8 +4,10 @@ const app = express();
 const User = require("../models/user");
 const { validationSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser")
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   //creating a new instance of User model.
@@ -45,7 +47,7 @@ app.post("/signup", async (req, res) => {
   } catch (err) {
     res.send("Error: " + err.message);
   }
-});
+});  
 // login API-----------------------------
 app.post("/login", async (req, res) => {
   try {
@@ -59,9 +61,12 @@ app.post("/login", async (req, res) => {
     if (isPasswordValid) {
       //JWT logics.
 
+ 
 
 
       //Add the token to cookies and send the response back to the user.
+
+      res.cookie("token","qwertyuioplkjhgfdsazxcvbnm")
 
 
 
@@ -80,6 +85,14 @@ app.post("/login", async (req, res) => {
     res.status(400).send("Error: " + err.message);
   } 
 });
+
+app.get("/profile", async (req,res)=>{
+  const cookie= req.cookies;
+  // to get the cookies we'll use the cookies. as it's not a method we'll not execute it.
+  console.log(cookie);
+
+  res.send("Reading cookie")
+})
 
 //Finding the user based on email condition.
 app.get("/feed", async (req, res) => {z
