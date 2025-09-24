@@ -4,7 +4,8 @@ const app = express();
 const User = require("../models/user");
 const { validationSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -47,7 +48,7 @@ app.post("/signup", async (req, res) => {
   } catch (err) {
     res.send("Error: " + err.message);
   }
-});  
+});
 // login API-----------------------------
 app.post("/login", async (req, res) => {
   try {
@@ -59,23 +60,12 @@ app.post("/login", async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
-      //JWT logics.
-
- 
-
+      //JWT logics create and pass it to the cookie.
+      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");
 
       //Add the token to cookies and send the response back to the user.
 
-      res.cookie("token","qwertyuioplkjhgfdsazxcvbnm")
-
-
-
-
-
-
-
-
-
+      res.cookie("token", token);
 
       res.send("Login successsful!!!");
     } else {
@@ -83,19 +73,20 @@ app.post("/login", async (req, res) => {
     }
   } catch (err) {
     res.status(400).send("Error: " + err.message);
-  } 
+  }
 });
 
-app.get("/profile", async (req,res)=>{
-  const cookie= req.cookies;
+app.get("/profile", async (req, res) => {
+  const cookie = req.cookies;
   // to get the cookies we'll use the cookies. as it's not a method we'll not execute it.
   console.log(cookie);
 
-  res.send("Reading cookie")
-})
+  res.send("Reading cookie");
+});
 
 //Finding the user based on email condition.
-app.get("/feed", async (req, res) => {z
+app.get("/feed", async (req, res) => {
+  z;
   const userEmail = req.body.email;
   try {
     const users = await User.find({ email: userEmail });
@@ -160,14 +151,14 @@ app.patch("/user/:userId", async (req, res) => {
       "firstName",
       "age",
       "gender",
-      "skills", 
+      "skills",
       "about",
       "photoURL",
     ];
 
-    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k)); 
+    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
     // every check the statement and return the true or false. it work on arrays
-  
+
     if (!isAllowed) {
       throw new Error("Updating  not allowed");
     }
