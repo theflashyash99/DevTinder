@@ -28,7 +28,7 @@ app.post("/signup", async (req, res) => {
       req.body;
     validationSignUpData(req);
 
-    // password encryption using bcrypt
+    // password encryption using bcrypt.hash(value,level of strong encryption 10 is recommanded)
 
     const passwordHash = await bcrypt.hash(password, 10);
     console.log(passwordHash);
