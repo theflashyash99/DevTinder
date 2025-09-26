@@ -49,7 +49,7 @@ app.post("/signup", async (req, res) => {
     res.send("Error: " + err.message);
   }
 });
-// login API-----------------------------
+// login API------------------------------------
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,6 +67,7 @@ app.post("/login", async (req, res) => {
       //Add the token to cookies and send the response back to the user.
 
       res.cookie("token", token);
+      //name and value
 
       res.send("Login successsful!!!");
     } else {
