@@ -79,11 +79,28 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/profile", async (req, res) => {
-  const cookie = req.cookies;
-  // to get the cookies we'll use the cookies. as it's not a method we'll not execute it.
-  console.log(cookie);
+  try {
+    const cookies = req.cookies;
+    // to get the cookies we'll use the cookies. as it's not a method we'll not execute it.
 
-  res.send("Reading cookie");
+    const { token } = cookies;
+    if (!token) {
+      throw new Error("Invalid token");
+    }
+
+    const decorded = await jwt.verify(token, "DEV@Tinder$790");
+    const { _id } = decorded;
+    console.log("The User Id is" + _id);
+
+    const userId = await User.findById(_id);
+    if (!userId) {
+      throw new Error("User does not exisr!!!");
+    }
+
+    res.send(userId);
+  } catch (err) {
+    res.status(400).send("Error: " + err.message);
+  }
 });
 
 //Finding the user based on email condition.
