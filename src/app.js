@@ -90,7 +90,7 @@ app.get("/profile", async (req, res) => {
 
     const decorded = await jwt.verify(token, "DEV@Tinder$790");
     const { _id } = decorded;
-    console.log("The User Id is" + _id);
+   
 
     const userId = await User.findById(_id);
     if (!userId) {
