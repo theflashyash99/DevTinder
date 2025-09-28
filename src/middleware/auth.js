@@ -1,30 +1,28 @@
 const jwt = require("jsonwebtoken");
+const User = require("../../models/user");
 const userAuth = async (req, res, next) => {
-// Read the token from the req cookies.
- const cookies = req.cookies;
- const {token} = cookies;
- if(!token){
-  throw new Error ("The token not available");
- }
+  // Read the token from the req cookies.
+  try {
+    const cookies = req.cookies;
+    // Validate the token
+    const { token } = cookies;
+    if (!token) {
+      throw new Error("Token is not valid!!!!!!!!!!");
+    }
 
- const decordedData = jwt.verify(token,"DEV@Tinder$790");
-  
- const {id} = decordedData;
+    const decordedData = jwt.verify(token, "DEV@Tinder$790");
 
- const user = await User.findOne({_id: id});
-if(!user){
-  throw new Error ("User does not exist in Database!!!")
+    const { id } = decordedData;
+    // find the user in DB
+    const user = await User.findById({ id });
+    if (!user) {
+      throw new Error("User does not exist in Database!!!");
+    }
 
-}
-
-res.send(user);
-
-
-// Validate the token
-// find the user in DB
-
-
-
+    next();
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
 };
 module.exports = {
   userAuth,
