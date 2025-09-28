@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 app.use(cookieParser());
-// make user in data base by signup.
+// make user in database by signup.
 app.post("/signup", async (req, res) => {
   //creating a new instance of User model.
   //----------------------Manual & Hard-coded data passing
@@ -76,7 +76,7 @@ app.post("/login", async (req, res) => {
     res.status(400).send("Error: " + err.message);
   }
 });
-
+// getting user profile
 app.get("/profile", async (req, res) => {
   try {
     const cookies = req.cookies;
