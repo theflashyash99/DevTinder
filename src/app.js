@@ -6,6 +6,7 @@ const { validationSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middleware/auth");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -61,10 +62,10 @@ app.post("/login", async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
       //JWT logics create and pass it to the cookie.
-      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");9
-    
-      //Add the token to cookies and send the response back to the user.
+      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");
 
+      //Add the token to cookies and send the response back to the user.
+      
       res.cookie("token", token);
       //name and value
 
@@ -72,15 +73,17 @@ app.post("/login", async (req, res) => {
     } else {
       throw new Error("Invalid credentials");
     }
-  } catch (err) { 
+  } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
 });
 // getting user profile
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
     const cookies = req.cookies;
-    // to get the cookies we'll use the cookies. as it's not a method we'll not execute it.
+    // to get the cookies we'll use the cookies. as it's not a method we'll not execute it...........
+
+    // get the cookie and extract token and decode it then extract the id then find the user.........
 
     const { token } = cookies;
     if (!token) {
@@ -89,7 +92,6 @@ app.get("/profile", async (req, res) => {
 
     const decorded = await jwt.verify(token, "DEV@Tinder$790");
     const { _id } = decorded;
-   
 
     const userId = await User.findById(_id);
     if (!userId) {
