@@ -60,6 +60,8 @@ app.post("/login", async (req, res) => {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    // it return true or false.
     if (isPasswordValid) {
       //JWT logics create and pass it to the cookie.
       const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");
@@ -83,7 +85,7 @@ app.get("/profile", userAuth, async (req, res) => {
     const cookies = req.cookies;
     // to get the cookies we'll use the cookies. as it's not a method we'll not execute it...........
 
-    // get the cookie and extract token and decode it then extract the id then find the user.........
+    // Process -: get the cookie and extract token and decode it then extract the id then find the user.........
 
     const { token } = cookies;
     if (!token) {
