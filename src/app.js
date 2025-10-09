@@ -82,23 +82,21 @@ app.post("/login", async (req, res) => {
 // getting user profile
 app.get("/profile", userAuth, async (req, res) => {
   try {
-    const cookies = req.cookies;
-    // to get the cookies we'll use the cookies. as it's not a method we'll not execute it...........
+    // const cookies = req.cookies;
+    // // to get the cookies we'll use the cookies. as it's not a method we'll not execute it...........
 
-    // Process -: get the cookie and extract token and decode it then extract the id then find the user.........
+    // // Process -: get the cookie and extract token and decode it then extract the id then find the user.........
 
-    const { token } = cookies;
-    if (!token) {
-      throw new Error("Invalid token");
-    }
+    // const { token } = cookies;
+    // if (!token) {
+    //   throw new Error("Invalid token");
+    // }
 
-    const decorded = await jwt.verify(token, "DEV@Tinder$790");
-    const { _id } = decorded;
+    // const decorded = await jwt.verify(token, "DEV@Tinder$790");
+    // const { _id } = decorded;
 
-    const user = await User.findById(_id);
-    if (!user) {
-      throw new Error("User does not exisr!!!");
-    }
+    const user = req.user;
+
 
     res.send(user);
   } catch (err) {
