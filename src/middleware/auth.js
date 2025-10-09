@@ -18,7 +18,8 @@ const userAuth = async (req, res, next) => {
     if (!user) {
       throw new Error("User does not exist in Database!!!");
     }
-
+   
+    //! we give to req so that we send the response of user when we call the handler route.
      req.user = user;
     next();
   } catch (err) {
