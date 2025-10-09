@@ -95,8 +95,13 @@ app.get("/profile", userAuth, async (req, res) => {
     // const decorded = await jwt.verify(token, "DEV@Tinder$790");
     // const { _id } = decorded;
 
+    // const user = await User.findById(_id);
+    // if (!user) {
+    //   throw new Error("User does not exisr!!!");
+    // }
+    
+    //! we get this user from the Auth.JS as we give it to the req as (req.user = user [before next]) to access it from here
     const user = req.user;
-
 
     res.send(user);
   } catch (err) {
