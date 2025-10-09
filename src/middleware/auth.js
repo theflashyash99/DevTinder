@@ -9,7 +9,7 @@ const userAuth = async (req, res, next) => {
     if (!token) {
       throw new Error("Token is not valid!!!!!!!!!!");
     }
-
+  // validate the token
     const decordedData = jwt.verify(token, "DEV@Tinder$790");
 
     const { id } = decordedData;
