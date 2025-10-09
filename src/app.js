@@ -67,7 +67,7 @@ app.post("/login", async (req, res) => {
       const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");
 
       //Add the token to cookies and send the response back to the user.
-      
+
       res.cookie("token", token);
       //name and value
 
@@ -99,7 +99,7 @@ app.get("/profile", userAuth, async (req, res) => {
     // if (!user) {
     //   throw new Error("User does not exisr!!!");
     // }
-    
+
     //! we get this user from the Auth.JS as we give it to the req as (req.user = user [before next]) to access it from here
     const user = req.user;
 
@@ -109,99 +109,12 @@ app.get("/profile", userAuth, async (req, res) => {
   }
 });
 
-//Finding the user based on email condition.
-app.get("/feed", async (req, res) => {
-  z;
-  const userEmail = req.body.email;
-  try {
-    const users = await User.find({ email: userEmail });
-    if (users.length === 0) {
-      res.status(404).send("User not Found");
-    } else {
-      res.send(users);
-    }
-  } catch (err) {
-    console.error("Something went wrong!!!");
-  }
-});
-// finding all the user in the query DB.
-app.get("/user", async (req, res) => {
-  try {
-    const users = await User.find({});
-    if (users.length === 0) {
-      res.status(404).send("User not found!!!");
-    } else {
-      res.send(users);
-    }
-  } catch (err) {
-    res.status(400).send("Something went wrong!!!");
-  }
-});
+// send connection  request.
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+  //sending connection request
+  const user = req.user;
 
-// finding the one user in the data database
-
-app.get("/one", async (req, res) => {
-  const userEmail = req.body.email;
-  try {
-    const users = await User.findOne({ email: userEmail });
-    res.send(users);
-  } catch (err) {
-    res.status(400).send("Something went wrong!!!");
-  }
-});
-
-// delete a user------------------------------------------------
-app.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-
-  try {
-    const deletedUser = await User.findByIdAndDelete(userId);
-    res.send("User has been deleted!!!");
-  } catch (err) {
-    res.status(400).send("Something went wrong!!!");
-  }
-});
-
-// update a user-- and validation on the Give API for the selective field can be updated.
-
-app.patch("/user/:userId", async (req, res) => {
-  const userId = req.params?.userId;
-  // whole data given in the body of postman will be extracted here.
-  const data = req.body;
-
-  // making AllowedUser API Validation
-
-  try {
-    const Allowed_User = [
-      "firstName",
-      "age",
-      "gender",
-      "skills",
-      "about",
-      "photoURL",
-    ];
-
-    const isAllowed = Object.keys(data).every((k) => Allowed_User.includes(k));
-    // every check the statement and return the true or false. it work on arrays
-
-    if (!isAllowed) {
-      throw new Error("Updating  not allowed");
-    }
-
-    // skills valifation for it has only 5 skills
-    if (data.skills.length > 10) {
-      throw new Error("The skills should be not be more than 10");
-    }
-
-    const updatedUser = await User.findByIdAndUpdate({ _id: userId }, data, {
-      returnDocument: "after",
-      runValidators: true,
-    });
-    console.log(updatedUser);
-    res.send("User's data has been updated!!!");
-  } catch (err) {
-    res.status(400).send("UPDATE FAILED : " + err.message);
-  }
+  res.send(user.firstName + " send the connection request!!");
 });
 
 connectDb()
