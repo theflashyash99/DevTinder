@@ -19,6 +19,7 @@ const userAuth = async (req, res, next) => {
       throw new Error("User does not exist in Database!!!");
     }
 
+     req.user = user;
     next();
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
