@@ -95,12 +95,12 @@ app.get("/profile", userAuth, async (req, res) => {
     const decorded = await jwt.verify(token, "DEV@Tinder$790");
     const { _id } = decorded;
 
-    const userId = await User.findById(_id);
-    if (!userId) {
+    const user = await User.findById(_id);
+    if (!user) {
       throw new Error("User does not exisr!!!");
     }
 
-    res.send(userId);
+    res.send(user);
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
