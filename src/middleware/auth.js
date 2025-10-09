@@ -12,9 +12,9 @@ const userAuth = async (req, res, next) => {
   // validate the token
     const decordedData = jwt.verify(token, "DEV@Tinder$790");
 
-    const { id } = decordedData;
+    const { _id } = decordedData;
     // find the user in DB
-    const user = await User.findById({ id });
+    const user = await User.findById({ _id });
     if (!user) {
       throw new Error("User does not exist in Database!!!");
     }
