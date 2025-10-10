@@ -64,7 +64,7 @@ app.post("/login", async (req, res) => {
     // it return true or false.
     if (isPasswordValid) {
       //JWT logics create and pass it to the cookie.
-      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790");
+      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790" , {expiresIn:"1h"});
 
       //Add the token to cookies and send the response back to the user.
 
