@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
 //instance of new schema made so use new.
 const userSchema = new mongoose.Schema(
   {
@@ -25,11 +27,11 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      validate(value){
-        if(!validator.isStrongPassword(value)){
-          throw new Error ("The given password is not strong " + value)
+      validate(value) {
+        if (!validator.isStrongPassword(value)) {
+          throw new Error("The given password is not strong " + value);
         }
-      }
+      },
     },
     age: {
       type: Number,
@@ -50,12 +52,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://www.pnrao.com/wp-content/uploads/2023/06/dummy-user-male.jpg",
-        validate(value){
-          if(!validator.isURL(value)){
-            throw new Error ("The given URL is not Valid")
-
-          }
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("The given URL is not Valid");
         }
+      },
     },
     about: {
       type: String,
@@ -69,6 +70,22 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.methods.getJWT = async function () {
+  const user = this;
+  const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790", {
+    expiresIn: "7d",
+  });
+  return token;
+};
+
+userSchema.methods.validatePassword = async function (passwordInputByUser){
+  const user = this;
+  const passwordHash = user.password;
+
+  const isPasswordValid = await bcrypt.compare(passwordInputByUser,passwordHash);
+   return isPasswordValid;
+}
 
 const User = mongoose.model("User", userSchema);
 
