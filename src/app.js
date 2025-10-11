@@ -59,11 +59,15 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid credentials");
     }
 
+
+    //! using the Mongoosh Schema Method bcrypt.compare.
     const isPasswordValid = await user.validatePassword(password);
 
     // it return true or false.
     if (isPasswordValid) {
       //JWT logics create and pass it to the cookie.
+
+      //! using the Mongoosh Schema Method JWT.
       const token = await user.getJWT();
 
       //Add the token to cookies and send the response back to the user.
