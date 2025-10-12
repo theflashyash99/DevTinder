@@ -10,6 +10,7 @@ const { userAuth } = require("./middleware/auth");
 
 app.use(express.json());
 app.use(cookieParser());
+
 // make user in database by signup.
 app.post("/signup", async (req, res) => {
   //creating a new instance of User model.
@@ -50,15 +51,15 @@ app.post("/signup", async (req, res) => {
     res.send("Error: " + err.message);
   }
 });
+
 // login API------------------------------------
 app.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body; 
+    const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
       throw new Error("Invalid credentials");
     }
-
 
     //! using the Mongoosh Schema Method bcrypt.compare.
     const isPasswordValid = await user.validatePassword(password);
@@ -73,7 +74,7 @@ app.post("/login", async (req, res) => {
       //Add the token to cookies and send the response back to the user.
 
       res.cookie("token", token, {
-         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7days expiry
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7days expiry
       });
       //name and value
 
@@ -85,6 +86,7 @@ app.post("/login", async (req, res) => {
     res.status(400).send("Error: " + err.message);
   }
 });
+
 // getting user profile
 app.get("/profile", userAuth, async (req, res) => {
   try {
