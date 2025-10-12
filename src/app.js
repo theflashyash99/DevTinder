@@ -53,7 +53,7 @@ app.post("/signup", async (req, res) => {
 // login API------------------------------------
 app.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body; 
     const user = await User.findOne({ email: email });
     if (!user) {
       throw new Error("Invalid credentials");
