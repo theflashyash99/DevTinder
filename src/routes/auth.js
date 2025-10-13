@@ -45,5 +45,39 @@ authRouter.post("/signup", async (req, res) => {
 });
 
 
+authRouter.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+
+    //! using the Mongoosh Schema Method bcrypt.compare.
+    const isPasswordValid = await user.validatePassword(password);
+
+    // it return true or false.
+    if (isPasswordValid) {
+      //JWT logics create and pass it to the cookie.
+
+      //! using the Mongoosh Schema Method JWT.
+      const token = await user.getJWT();
+
+      //Add the token to cookies and send the response back to the user.
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7days expiry
+      });
+      //name and value
+
+      res.send("Login successsful!!!");
+    } else {
+      throw new Error("Invalid credentials");
+    }
+  } catch (err) {
+    res.status(400).send("Error: " + err.message);
+  }
+});
+
 module.export = authRouter;
 
