@@ -1,9 +1,8 @@
 const express = require("express");
 const authRouter = express.Router();
-const { validationSignUpData } = require("./utils/validation");
+const { validationSignUpData } = require("../utils/validation");
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
-const { userAuth } = require("./middleware/auth");
+const User = require("../../models/user");
 
 // make user in database by signup.
 authRouter.post("/signup", async (req, res) => {

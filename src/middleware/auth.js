@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
+const { validationSignUpData } = require("../utils/validation");
 const userAuth = async (req, res, next) => {
   // Read the token from the req cookies.
   try {
