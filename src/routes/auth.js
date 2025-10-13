@@ -3,7 +3,9 @@ const authRouter = express.Router();
 const { validationSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const { userAuth } = require("./middleware/auth");
 
+// make user in database by signup.
 authRouter.post("/signup", async (req, res) => {
   //creating a new instance of User model.
   //----------------------Manual & Hard-coded data passing
@@ -43,9 +45,7 @@ authRouter.post("/signup", async (req, res) => {
     res.send("Error: " + err.message);
   }
 });
-
-
-
+// login API------------------------------------
 authRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -80,5 +80,4 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-module.export = authRouter;
-
+module.exports = authRouter;
