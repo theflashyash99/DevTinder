@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
+
 //instance of new schema made so use new.
 const userSchema = new mongoose.Schema(
   {

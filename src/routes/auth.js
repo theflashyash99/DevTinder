@@ -48,7 +48,8 @@ authRouter.post("/signup", async (req, res) => {
 authRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    //check wheather user is there or not.
+    const user = await User.findOne({ email: email });// email as the model has the email as type and email as input the we take from the req.body!!!
     if (!user) {
       throw new Error("Invalid credentials");
     }
@@ -77,6 +78,11 @@ authRouter.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
+});
+
+authRouter.post("/logout",async (req,res) => {
+
+
 });
 
 module.exports = authRouter;
