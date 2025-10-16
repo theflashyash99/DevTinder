@@ -3,7 +3,7 @@ const profileRouter = express.Router();
 const { userAuth } = require("../middleware/auth");
 
 // getting user profile
-profileRouter.get("/profile", userAuth, async (req, res) => {
+profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
     // const cookies = req.cookies;
     // // to get the cookies we'll use the cookies. as it's not a method we'll not execute it...........
