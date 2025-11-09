@@ -32,4 +32,7 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
   }
 });
 
+profileRouter.patch("profile/edit",userAuth, async (req,res)=> {
+
+});
 module.exports = profileRouter;
