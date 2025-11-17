@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.methods.getJWT = async function () {
+userSchema.methods.getJWT = async function () {  // always use the function keyword to use this keyword..
   const user = this;
   // this is the user data as we model invoke it instantiated. so this means the user is store in the User so that it can easily me used.
   const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$790", {

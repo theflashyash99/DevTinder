@@ -34,5 +34,14 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
 
 profileRouter.patch("profile/edit",userAuth, async (req,res)=> {
 
+  
+
+  const allowedEditFields = 
+  ["firstName","lastName","age","about","photoURL","email","gender","skills"];
+
+  const isAllowedUpdate = Object.keys(req.body).every((field) => allowedEditFields.includes(field))
+
+
+
 });
 module.exports = profileRouter;
