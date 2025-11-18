@@ -38,7 +38,6 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     if (!validateEditProfileData(req)) {
       throw new Error("Invalid Edit Fields!!!");
     }
-    
     const loggedInUser = req.user; // as it is given to req.user = user  from the userAuth middleware.
     console.log(loggedInUser);
 
