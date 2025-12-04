@@ -38,14 +38,15 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     if (!validateEditProfileData(req)) {
       throw new Error("Invalid Edit Fields!!!");
     }
-    
+
     const loggedInUser = req.user; // as it is given to req.user = user  from the userAuth middleware.
     console.log(loggedInUser);
 
-    Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key])); // here we are extrating the key from the body and give it to the loggedInUser
+    Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key])); // here we are extrating the key from the body and give it to the loggedInUser and when we do loggedInUser [key] = req.body[key] it assign the value 
     console.log(loggedInUser);
     await loggedInUser.save();
     res.json({message: `${loggedInUser.firstName}, your updated successfully!!!`, data: loggedInUser});
+    // res.send and res.json does the same thing.
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
