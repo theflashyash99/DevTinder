@@ -4,11 +4,15 @@ const { userAuth } = require("../middleware/auth");
 
 
 
-requestRouter.post("/sendConnectionRequest", userAuth, async (req, res) => {
+requestRouter.post("/request/send/interested/:toUserId", userAuth, async (req, res) => {
   //sending connection request
-  const user = req.user;
+  try{
+  const fromUserId = req.user._id;
 
   res.send(user.firstName + " send the connection request!!");
+  }catch(err){
+    res.status(400).send("ERROR: " + err.message);
+  }
 });
 
 
