@@ -19,11 +19,24 @@ requestRouter.post(
           .status(400)
           .json({ message: "Invalid Status type: " + status });
       }
-        
+
+      //Checking if there is an existing ConnectionRequest.
+
+      const existingConnectionRequest = await ConnectionRequestModel.findOne({
+        $or: [
+          { fromUserId: fromUserId, toUserId: toUserId }, // this check connection for both side.
+          { fromUserId: toUserId, toUserId: fromUserId },
+        ],
+      });
+
+      if(existingConnectionRequest){
+        return res.status(400).send({message:"Connection Request Already Exists!"})
+      }
+
       const connectionRequest = new ConnectionRequestModel({
         fromUserId,
         toUserId,
-        status, 
+        status,
       });
 
       const data = await connectionRequest.save(); // this will save it to the DB!
