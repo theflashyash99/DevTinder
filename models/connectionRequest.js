@@ -28,8 +28,12 @@ const connectionRequestSchema = new mongoose.Schema(
   }
 );
 
+// create index on the fromUserId and toUserId for the optimization.
+connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 });
+
+// before saving it will check this equal fucntion automatically on every single run.
 connectionRequestSchema.pre("save", function (next) {
-  const connectionRequest = this
+  const connectionRequest = this;
   if (connectionRequest.fromUserId.equals(this.toUserId)) {
     throw new Error("You Can't Send Request To Yourself!!");
   }
