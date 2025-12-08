@@ -72,6 +72,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// creating the index on first and last name
+userSchema.index({firstName:1, lastName:1});
+
 userSchema.methods.getJWT = async function () {  // always use the function keyword to use this keyword..
   const user = this;
   // this is the user data as we model invoke it instantiated. so this means the user is store in the User so that it can easily me used.
