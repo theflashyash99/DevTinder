@@ -53,7 +53,7 @@ requestRouter.post(
       const data = await connectionRequest.save(); // this will save it to the DB!
 
       res.json({
-        message: "Connection Request Sent Successfully!",
+        message: req.user.firstName+" is "+status+" in "+toUser.firstName,
         data,
       });
     } catch (err) {
