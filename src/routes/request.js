@@ -53,7 +53,8 @@ requestRouter.post(
       const data = await connectionRequest.save(); // this will save it to the DB!
 
       res.json({
-        message: req.user.firstName+" is "+status+" in "+toUser.firstName,
+        message:
+          req.user.firstName + " is " + status + " in " + toUser.firstName,
         data,
       });
     } catch (err) {
@@ -62,11 +63,20 @@ requestRouter.post(
   }
 );
 
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.user;
 
-requestRouter.post("/request/review/:status/:requestId",userAuth, async(req,res)=>{
-  const loggedInUser = req.user;
 
-})
+
+      
+    } catch (err) {
+      res.status(400).send("Error: " + err.message);
+    }
+  }
+);
 
 module.exports = requestRouter;
- 
