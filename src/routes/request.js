@@ -68,11 +68,29 @@ requestRouter.post(
   userAuth,
   async (req, res) => {
     try {
+      //validate the status
+
+      //Akshay --> Elon
+      //loggedIn =toUserId
+      //status = interested (it should be interested)
+      // request should be valid.
       const loggedInUser = req.user;
 
+      // validating status.
+      const { status, requestId } = req.params;
 
+      const allowedStatus = ["interested", "rejected"];
 
-      
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ message: "Status not allowed!" });
+      }
+
+      // find in the connection request.
+      const connectionRequest = await  ConnectionRequestModel.findOne({
+        toUserId: loggedInUser._id, // the touser is to be the loggedin user.
+        _id : requestId, // id validation
+        status:"interested" // status should be interested
+      })
     } catch (err) {
       res.status(400).send("Error: " + err.message);
     }
