@@ -86,11 +86,20 @@ requestRouter.post(
       }
 
       // find in the connection request.
-      const connectionRequest = await  ConnectionRequestModel.findOne({
+      const connectionRequest = await ConnectionRequestModel.findOne({
         toUserId: loggedInUser._id, // the touser is to be the loggedin user.
-        _id : requestId, // id validation
-        status:"interested" // status should be interested
-      })
+        _id: requestId, // id validation
+        status: "interested", // status should be interested
+      });
+
+      if (!connectionRequest) {
+        return res
+          .status(404)
+          .json({ message: "Connection Request Not Found!!!" });
+      }
+
+      connectionRequest.status = status;
+      await connectionRequest.save();
     } catch (err) {
       res.status(400).send("Error: " + err.message);
     }
