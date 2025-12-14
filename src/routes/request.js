@@ -79,7 +79,7 @@ requestRouter.post(
       // validating status.
       const { status, requestId } = req.params;
 
-      const allowedStatus = ["interested", "rejected"];
+      const allowedStatus = ["accepted", "rejected"];
 
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({ message: "Status not allowed!" });
@@ -88,7 +88,7 @@ requestRouter.post(
       // find in the connection request.
       const connectionRequest = await ConnectionRequestModel.findOne({
         toUserId: loggedInUser._id, // the touser is to be the loggedin user.
-        _id: requestId, // id validation
+        _id: requestId, // id of the connectionRequest ID not the fromUSer or toUSer
         status: "interested", // status should be interested
       });
 
@@ -96,10 +96,12 @@ requestRouter.post(
         return res
           .status(404)
           .json({ message: "Connection Request Not Found!!!" });
-      }
+      } 
 
       connectionRequest.status = status;
-      await connectionRequest.save();
+     const data =  await connectionRequest.save();
+
+     res.json({message:"connection request " + status, data})
     } catch (err) {
       res.status(400).send("Error: " + err.message);
     }
