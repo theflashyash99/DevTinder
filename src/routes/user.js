@@ -58,9 +58,9 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 
 userRouter.get("/feed", userAuth, async (req, res) => {
   try {
-
-    const page = parseInt(req.params.page);
-    const limit = parseInt(req.params.limit);
+    const page = parseInt(req.params.page) || 1;
+    const limit = parseInt(req.params.limit) || 10;
+    const skip = (page-1) * limit;
 
     const loggedInUser = req.user;
     // find connection request that was ( sent + received ).
@@ -75,18 +75,18 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     const hideUsersFromFeed = new Set();
 
     ConnectionRequest.forEach((req) => {
-  hideUsersFromFeed.add(req.fromUserId.toString());
-  hideUsersFromFeed.add(req.toUserId.toString());
-});
+      hideUsersFromFeed.add(req.fromUserId.toString());
+      hideUsersFromFeed.add(req.toUserId.toString());
+    });
 
-    console.log(hideUsersFromFeed)
+    console.log(hideUsersFromFeed);
 
     const user = await User.find({
-      $and : [
-        {_id :{$nin :Array.from(hideUsersFromFeed)}}, // %nin means notIn
-      {_id : {$ne: loggedInUser._id}}  // $ne =  not Equal too
-      ]
-    }).select(USER_SAFE_DATA)
+      $and: [
+        { _id: { $nin: Array.from(hideUsersFromFeed) } }, // %nin means notIn
+        { _id: { $ne: loggedInUser._id } }, // $ne =  not Equal too
+      ],
+    }).select(USER_SAFE_DATA).skip(skip).limit(limit);
     res.send(user);
   } catch (err) {
     res.status(400).send("Error: " + err.message);
