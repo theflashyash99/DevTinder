@@ -58,6 +58,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 
 userRouter.get("/feed", userAuth, async (req, res) => {
   try {
+
+    const page = parseInt(req.params.page);
+    const limit = parseInt(req.params.limit);
+
     const loggedInUser = req.user;
     // find connection request that was ( sent + received ).
 
