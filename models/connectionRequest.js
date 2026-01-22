@@ -32,6 +32,7 @@ const connectionRequestSchema = new mongoose.Schema(
 connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 });
 
 // before saving it will check this equal fucntion automatically on every single run.
+// next is given so that the function afterwards moves to next handler
 connectionRequestSchema.pre("save", function (next) {
   const connectionRequest = this;
   if (connectionRequest.fromUserId.equals(this.toUserId)) {

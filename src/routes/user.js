@@ -7,10 +7,12 @@ const User = require("../../models/user");
 const USER_SAFE_DATA = [
   "firstName",
   "lastName",
-  "photoUrl",
-  "age",
+  "photoURL",
+  "age", 
   "gender",
   "skills",
+  "about",
+  
 ];
 
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
@@ -89,7 +91,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       .select(USER_SAFE_DATA)
       .skip(skip)
       .limit(limit);
-    res.json({data : users});
+    res.json({data : user});
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }

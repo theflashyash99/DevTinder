@@ -87,7 +87,7 @@ requestRouter.post(
 
       // find in the connection request.
       const connectionRequest = await ConnectionRequestModel.findOne({
-        toUserId: loggedInUser._id, // the touser is to be the loggedin user.
+        toUserId: loggedInUser._id, // the toUser is to be the loggedin user.
         _id: requestId, // id of the connectionRequest ID not the fromUSer or toUSer
         status: "interested", // status should be interested
       });
