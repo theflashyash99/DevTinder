@@ -76,11 +76,11 @@ requestRouter.post(
       // request should be valid.
       const loggedInUser = req.user;
 
-      // validating status.
+      // validating status.  
       const { status, requestId } = req.params;
 
       const allowedStatus = ["accepted", "rejected"];
-
+   
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({ message: "Status not allowed!" });
       }
