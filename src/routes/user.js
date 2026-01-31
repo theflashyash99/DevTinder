@@ -66,8 +66,9 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     const skip = (page - 1) * limit;
 
     const loggedInUser = req.user;
-    // find connection request that was ( sent + received ).
 
+
+    // find connection request that was ( sent + received ). //! EXplaination :- as the connection request only has the Senders and Receivers IDs. So, what we'll do is we'll find the IDs that present in the Connection MOdel so that we can  exclude them later when we'll fetch the feeed API Data.
     const ConnectionRequest = await ConnectionRequestModel.find({
       $or: [
         { fromUserId: loggedInUser._id }, // the sender
@@ -75,8 +76,8 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       ],
     }).select("fromUserId toUserId");
 
+     // Remove the duplicate IDs. //! Explaination :-  (in this the connectionRequest model has IDs which were all place whom send the request or send the request. so, we'll extract the necessary one by checking the duplicate and then in the user model we'll check that this IDs people will not be included in the feed) 
     const hideUsersFromFeed = new Set();
-
     ConnectionRequest.forEach((req) => {
       hideUsersFromFeed.add(req.fromUserId.toString());
       hideUsersFromFeed.add(req.toUserId.toString());
@@ -84,13 +85,15 @@ userRouter.get("/feed", userAuth, async (req, res) => {
 
     const user = await User.find({
       $and: [
-        { _id: { $nin: Array.from(hideUsersFromFeed) } }, // %nin means notIn
+        { _id: { $nin: Array.from(hideUsersFromFeed) } }, // %nin means notIn and Array.from() : it make things into an array.
         { _id: { $ne: loggedInUser._id } }, // $ne =  not Equal too
       ],
     })
       .select(USER_SAFE_DATA)
       .skip(skip)
       .limit(limit);
+
+      //! Summary  :-  Connections → Collect IDs → Remove duplicates → Exclude them → Show fresh users
     res.json({data : user});
   } catch (err) {
     res.status(400).send("Error: " + err.message);
