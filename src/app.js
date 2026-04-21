@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middleware/auth");
 const cors = require("cors");
 const http = require("http");
+require("dotenv").config();
 
 // import cors from "cors";
 app.use(express.json());
@@ -38,12 +39,12 @@ app.use("/", userRouter);
 app.use("/", chatRounter);
 
 const server = http.createServer(app);
- initializeSocket(server);
+initializeSocket(server);
 
 connectDb()
   .then(() => {
     console.log("Database connection established.........");
-    server.listen(9999, () => {
+    server.listen(process.env.PORT, () => {
       console.log("The Server is running on port 9999!");
     });
   })
