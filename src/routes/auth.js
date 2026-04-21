@@ -6,6 +6,7 @@ const User = require("../../models/user");
 
 // make user in database by signup.
 authRouter.post("/signup", async (req, res) => {
+  
   //creating a new instance of User model.
   //----------------------Manual & Hard-coded data passing
   // const user = new User({
