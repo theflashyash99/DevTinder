@@ -44,9 +44,17 @@ authRouter.post("/signup", async (req, res) => {
 
       //Add the token to cookies and send the response back to the user.
 
+      // res.cookie("token", token, {
+      //   expires: new Date(Date.now() + 8 * 3600000), // 8hr expiry
+      // }); 
+
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000), // 8hr expiry
-      }); 
+  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  httpOnly: true,
+  secure: true,       // ✅ required for HTTPS (Render)
+  sameSite: "none",   // ✅ required for cross-origin (Vercel → Render)
+});
+
     res.json({message: "User added successfuly" , data : savedUser});
   } catch (err) {
     res.send("Error: " + err.message);
@@ -74,9 +82,16 @@ authRouter.post("/login", async (req, res) => {
 
       //Add the token to cookies and send the response back to the user.
 
+      // res.cookie("token", token, {
+      //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7days expiry
+      // });
+
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7days expiry
-      });
+  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  httpOnly: true,
+  secure: true,       // ✅ required for HTTPS (Render)
+  sameSite: "none",   // ✅ required for cross-origin (Vercel → Render)
+});
       //name and value
 
       res.send(user);
