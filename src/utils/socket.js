@@ -5,7 +5,7 @@ const { userAuth } = require("../middleware/auth");
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: ["http://localhost:5173",] ,
+      origin: ["http://localhost:5173","https://dev-tinder-web-two-beta.vercel.app"] ,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
