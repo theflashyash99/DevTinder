@@ -27,7 +27,7 @@ authRouter.post("/signup", async (req, res) => {
     // password encryption using bcrypt.hash(value,level of strong encryption 10 is recommanded)
 
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
+  
 
     const user = new User({
       firstName,
